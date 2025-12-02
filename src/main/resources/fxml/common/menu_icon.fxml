@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="60.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.MenuController">
+
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="60.0" style="-fx-background-color: #033859; -fx-background-radius: 20 0 0 20;">
+         <children>
+
+            <!-- LOGO NHỎ (tùy chọn) -->
+            <ImageView fitHeight="60.0" fitWidth="51.0" layoutX="5.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image><Image url="@../../image/logo.png" /></image>
+            </ImageView>
+
+            <!-- CÁC NÚT ICON -->
+            <Button fx:id="btnHome" layoutX="8.0" layoutY="120.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/home1.png" /></image></ImageView></graphic>
+            </Button>
+            <Button fx:id="btnSearch" layoutX="8.0" layoutY="180.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/search1.png" /></image></ImageView></graphic>
+            </Button>
+            <Button fx:id="btnChat" layoutX="8.0" layoutY="240.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/chat1.png" /></image></ImageView></graphic>
+            </Button>
+            <Button fx:id="btnGroupChat" layoutX="8.0" layoutY="300.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/group.png" /></image></ImageView></graphic>
+            </Button>
+            <Button fx:id="btnFiles" layoutX="8.0" layoutY="360.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: transparent; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/file1.png" /></image></ImageView></graphic>
+            </Button>
+            <Button fx:id="btnLogout" layoutX="8.0" layoutY="520.0" prefHeight="45.0" prefWidth="45.0" style="-fx-background-color: #e74c3c; -fx-background-radius: 12;">
+               <graphic><ImageView fitHeight="28.0" fitWidth="28.0"><image><Image url="@../../image/logout1.png" /></image></ImageView></graphic>
+            </Button>
+
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

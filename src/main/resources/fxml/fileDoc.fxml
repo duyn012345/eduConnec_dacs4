@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="450.0"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.educonnec_dacs4.controllers.EditProfileController">
+
+   <padding><Insets top="30" right="40" bottom="30" left="40"/></padding>
+
+   <children>
+      <VBox spacing="25" alignment="CENTER">
+         <Label text="Chỉnh sửa thông tin cá nhân" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+         <!-- Avatar -->
+         <VBox spacing="10" alignment="CENTER">
+            <ImageView fx:id="imgAvatar" fitHeight="120.0" fitWidth="120.0" preserveRatio="true"
+                       style="-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);"/>
+            <Button text="Chọn ảnh đại diện" onAction="#chooseAvatar" style="-fx-background-color: #007bff; -fx-text-fill: white;"/>
+         </VBox>
+
+         <GridPane hgap="15" vgap="12">
+            <Label text="Họ và tên:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtName" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Tên đăng nhập:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtUsername" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtEmail" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+         </GridPane>
+
+         <HBox spacing="20">
+            <Button text="Hủy" onAction="#saveProfile" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 10 30; -fx-background-radius: 25;"/>
+            <Button text="Hủy" onAction="#cancelEdit" style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 10 30; -fx-background-radius: 25;"/>
+         </HBox>
+      </VBox>
+   </children>
+</AnchorPane>

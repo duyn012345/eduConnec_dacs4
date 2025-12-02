@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="500.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.EditProfileController">
+
+   <padding><Insets bottom="30" left="40" right="40" top="30" /></padding>
+   <children>
+      <Label layoutX="117.0" layoutY="21.0" style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Chỉnh sửa thông tin cá nhân" />
+      <VBox alignment="CENTER" layoutX="195.0" layoutY="52.0" spacing="10">
+         <children>
+            <ImageView fx:id="imgAvatar" fitHeight="120.0" fitWidth="120.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);" />
+            <Button onAction="#chooseAvatar" style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Chọn ảnh đại diện" />
+         </children>
+      </VBox>
+      <GridPane hgap="15" layoutX="98.0" layoutY="240.0" vgap="12">
+         <children>
+            <Label style="-fx-font-weight: bold;" text="Họ và tên:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="txtName" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label style="-fx-font-weight: bold;" text="Tên đăng nhập:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="txtUsername" editable="false" prefWidth="250" style="-fx-background-color: #f0f0f0;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label style="-fx-font-weight: bold;" text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="txtEmail" prefWidth="250" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+      <HBox layoutX="169.0" layoutY="382.0" spacing="20">
+         <children>
+            <Button onAction="#saveProfile" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 10 30; -fx-background-radius: 25;" text="Lưu" />
+            <Button onAction="#cancelEdit" style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 15px; -fx-padding: 10 30; -fx-background-radius: 25;" text="Hủy" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
