@@ -6,19 +6,34 @@ import javafx.scene.control.*;
 import org.example.educonnec_dacs4.client.NetworkClient;
 import org.example.educonnec_dacs4.model.User;
 import org.example.educonnec_dacs4.utils.SceneManager;
-import org.example.educonnec_dacs4.controllers.ChatController;
 public class LoginController {
-
     @FXML private TextField tfEmail;
     @FXML private PasswordField pfPassword;
-
     private final String SERVER_IP = "127.0.0.1";
     private final int SERVER_PORT = 9000;
     private final NetworkClient client = NetworkClient.getInstance();
+    private java.util.function.BiConsumer<String, String> loginListener;
 
+//    public void initialize() {
+//        // Kết nối server
+//        if (!client.isConnected()) {
+//            if (!client.connect(SERVER_IP, SERVER_PORT)) {
+//                showError("Không thể kết nối đến server!\nVui lòng kiểm tra server đang chạy trên port 9000.");
+//                return;
+//            }
+//        }
+//        client.setOnMessageReceived((cmd, payload) -> Platform.runLater(() -> {
+//            System.out.println("Client nhận: " + cmd);
+//
+//            switch (cmd) {
+//                case "LOGIN_OK" -> handleLoginSuccess(payload);
+//                case "LOGIN_FAIL" -> showError("Đăng nhập thất bại!\n" + payload);
+//            }
+//        }));
+//    }
     @FXML
     public void initialize() {
-        // Kết nối server
+        // Kết nối server (Giữ nguyên)
         if (!client.isConnected()) {
             if (!client.connect(SERVER_IP, SERVER_PORT)) {
                 showError("Không thể kết nối đến server!\nVui lòng kiểm tra server đang chạy trên port 9000.");
@@ -26,18 +41,23 @@ public class LoginController {
             }
         }
 
-        // ĐĂNG KÝ LISTENER TOÀN CỤC – CHỈ 1 LẦN DUY NHẤT!
-        // TẤT CẢ CÁC MÀN HÌNH SAU NÀY SẼ NHẬN ĐƯỢC TIN NHẮN QUA HÀM NÀY
-        // THAY TOÀN BỘ HÀM setOnMessageReceived TRONG LoginController THÀNH ĐOẠN NÀY:
-        client.setOnMessageReceived((cmd, payload) -> Platform.runLater(() -> {
-            System.out.println("Client nhận: " + cmd);
-
+        // TẠO VÀ ĐĂNG KÝ LISTENER
+        loginListener = (cmd, payload) -> Platform.runLater(() -> {
+            System.out.println("LoginController nhận: " + cmd);
             switch (cmd) {
-                case "LOGIN_OK" -> handleLoginSuccess(payload);
+                case "LOGIN_OK" -> {
+                    // HỦY ĐĂNG KÝ NGAY LẬP TỨC TRƯỚC KHI CHUYỂN SCENE
+                    client.unsubscribe(loginListener);
+                    handleLoginSuccess(payload);
+                }
                 case "LOGIN_FAIL" -> showError("Đăng nhập thất bại!\n" + payload);
-                default -> NetworkClient.getInstance().broadcastMessage(cmd, payload);
+                // BỎ HẲN default case
             }
-        }));
+        });
+
+        // BỎ DÒNG client.setOnMessageReceived(...)
+        // Thay bằng client.subscribe(...)
+        client.subscribe(loginListener);
     }
 
     @FXML
@@ -49,19 +69,15 @@ public class LoginController {
             showError("Vui lòng nhập đầy đủ thông tin!");
             return;
         }
-
         client.send("LOGIN|" + identifier + "|" + password);
     }
-
     private void handleLoginSuccess(String payload) {
         try {
             String[] parts = payload.split("\\|", -1);
-
             if (parts.length < 6) {
                 showError("Dữ liệu từ server không hợp lệ!");
                 return;
             }
-
             User user = new User();
             user.setName(parts[0]);
             user.setUsername(parts[1]);
@@ -70,24 +86,18 @@ public class LoginController {
             user.setUserId(Integer.parseInt(parts[4]));
             user.setAvatar(parts[5]);
             user.setCreatedAt(parts.length > 6 ? parts[6] : "Chưa xác định");
-
             // LƯU USER HIỆN TẠI
             client.setCurrentUser(user);
-
-            // CHUYỂN SANG TRANG CHỦ – TỪ ĐÂY TRỞ ĐI, TẤT CẢ CÁC CONTROLLER ĐỀU NHẬN ĐƯỢC TIN NHẮN!
-            SceneManager.changeScene("home.fxml");
-
+           SceneManager.changeScene("home.fxml");
         } catch (Exception e) {
             e.printStackTrace();
             showError("Lỗi xử lý đăng nhập: " + e.getMessage());
         }
     }
-
     @FXML
     public void goRegister() {
         SceneManager.changeScene("register.fxml");
     }
-
     private void showError(String msg) {
         Platform.runLater(() ->
                 new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK).showAndWait()

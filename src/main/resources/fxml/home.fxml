@@ -147,13 +147,13 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="164.0" layoutY="4.0" prefHeight="592.0" prefWidth="488.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;">
+            <AnchorPane layoutX="164.0" layoutY="4.0" prefHeight="592.0" prefWidth="500.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;">
                <children>
                   <TextField layoutX="54.0" layoutY="40.0" prefHeight="34.0" prefWidth="250.0" promptText="🔍 Tìm kiếm..." />
                   <Label layoutX="61.0" layoutY="314.0" text="Số h hoạt động" />
                   <Label layoutX="322.0" layoutY="315.0" text="Nhật kí hoạt động" />
                   <Label layoutX="54.0" layoutY="104.0" text="Nhóm tương tác nhiều nhất" />
-                  <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="395.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="371.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../image/AI.png" />
                      </image>
@@ -162,15 +162,29 @@
                      </effect>
                   </ImageView>
                   <Label fx:id="lblTimeDate" layoutX="192.0" layoutY="14.0" text="time-date" />
-                  <Button fx:id="bntNotification" layoutX="431.0" layoutY="37.0" mnemonicParsing="false">
+<!--                  <Button fx:id="bntNotification" layoutX="431.0" layoutY="37.0" mnemonicParsing="false">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="29.0" prefWidth="34.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/notification_gray.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+                  <Button fx:id="bntNotification" layoutX="431.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-radius: 20;">
                      <graphic>
                         <AnchorPane prefHeight="29.0" prefWidth="34.0">
                            <children>
-                              <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../image/notification_gray.png" />
                                  </image>
                               </ImageView>
+                              <Label fx:id="lblNotificationBadge" layoutX="22.0" layoutY="0.0" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 50%; -fx-text-fill: white; -fx-font-size: 10px; -fx-alignment: center;" text="0" visible="false" />
                            </children>
                         </AnchorPane>
                      </graphic>

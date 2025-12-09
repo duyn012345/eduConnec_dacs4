@@ -1,5 +1,3 @@
-// File: EduConnect-Client/src/main/java/org/example/educonnec_dacs4/utils/SceneManager.java
-
 package org.example.educonnec_dacs4.utils;
 
 import javafx.fxml.FXMLLoader;
@@ -9,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
 
 public class SceneManager {
@@ -75,7 +72,6 @@ public class SceneManager {
             modalStage.close();
         }
     }
-
     private static void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Lỗi giao diện");

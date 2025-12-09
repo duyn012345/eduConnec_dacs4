@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,7 +25,8 @@ public class User implements Serializable {
     private String updatedAt;
     private String lastOnline;
     private boolean online;
-
+    private Integer conversationId;
+    private String friendshipStatus;
     private static final String DEFAULT_AVATAR = "/image/avatar.png";
 
     // Constructor rỗng
@@ -76,14 +76,26 @@ public class User implements Serializable {
     public void setStatus(String status) { this.status = status; }
     // THÊM 2 DÒNG NÀY VÀO PHẦN GETTER/SETTER
     public String getCreatedAt() {return createdAt;}
-
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
     public String getLastOnline() { return lastOnline; }
     public void setLastOnline(String lastOnline) { this.lastOnline = lastOnline; }
 
+    public Integer getConversationId() {
+        return conversationId;
+    }
 
+    public void setConversationId(Integer conversationId) {
+        this.conversationId = conversationId;
+    }
+    public String getFriendshipStatus() {
+        return friendshipStatus;
+    }
+
+    public void setFriendshipStatus(String friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
+    }
     public boolean isAdmin() { return "admin".equalsIgnoreCase(role); }
     public boolean isOnline() { return "online".equalsIgnoreCase(status); }
     public void setOnline(boolean online) {
@@ -113,6 +125,11 @@ public class User implements Serializable {
             map.put("username", u.username);
             map.put("avatar", u.getAvatar());
             map.put("online", u.isOnline());
+            // BỔ SUNG: Gửi trạng thái lời mời kết bạn
+            if (u.getFriendshipStatus() != null) {
+                map.put("friendshipStatus", u.getFriendshipStatus());
+            }
+
             list.add(map);
         }
         return new Gson().toJson(list);

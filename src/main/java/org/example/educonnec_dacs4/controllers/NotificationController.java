@@ -10,6 +10,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.example.educonnec_dacs4.client.NetworkClient;
 import org.example.educonnec_dacs4.model.Notification;
+import org.example.educonnec_dacs4.utils.SceneManager;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -20,9 +21,13 @@ public class NotificationController {
 
     @FXML private VBox notificationContainer;
     @FXML private Label lblUnreadCount;
-    @FXML private Button bntBack;
+    @FXML private Button btnBack;
     private final NetworkClient client = NetworkClient.getInstance();
+    private Stage popupStage; // để đóng popup
 
+    public void setPopupStage(Stage stage) {
+        this.popupStage = stage;
+    }
     @FXML
     public void initialize() {
         // ĐĂNG KÝ NHẬN THÔNG BÁO REALTIME (chỉ 1 lần duy nhất)
@@ -31,17 +36,14 @@ public class NotificationController {
         // TẢI THÔNG BÁO LẦN ĐẦU
         loadNotifications();
 
-        // Click vào tiêu đề "Thông báo" → đánh dấu tất cả đã đọc
-        if (notificationContainer.getParent() instanceof VBox parent) {
-            parent.setOnMouseClicked(e -> markAllAsRead());
-        }
         // THÊM DÒNG NÀY: Click nút Back → quay lại màn hình trước
-        bntBack.setOnMouseClicked(event -> {
-             Stage stage = (Stage) bntBack.getScene().getWindow();
-            stage.close();
- });
-        bntBack.setOnMouseEntered(e -> bntBack.setOpacity(1.0));
-        bntBack.setOnMouseExited(e -> bntBack.setOpacity(0.7));
+        btnBack.setOnMouseClicked(event -> {
+            if (popupStage != null) {
+                popupStage.close();
+            }
+        });
+        btnBack.setOnMouseEntered(e -> btnBack.setOpacity(1.0));
+        btnBack.setOnMouseExited(e -> btnBack.setOpacity(0.7));
     }
 
     private void handleMessage(String cmd, String payload) {
@@ -53,19 +55,47 @@ public class NotificationController {
         }
     }
 
+    // Trong NotificationController.java
+
     private void handleNotifications(String payload) {
+        // 1. Giả định Server gửi: <UNREAD_COUNT>|<JSON_LIST>
         String[] parts = payload.split("\\|", 2);
-        int unread = Integer.parseInt(parts[0]);
-        String json = parts.length > 1 ? parts[1] : "[]";
 
-        List<Notification> notifications = Notification.fromJsonArray(json);
+        int unreadCount;
+        String jsonList;
 
+        if (parts.length == 2) {
+            // Trường hợp 1: Có đầy đủ COUNT|JSON
+            try {
+                unreadCount = Integer.parseInt(parts[0]);
+                jsonList = parts[1];
+            } catch (NumberFormatException e) {
+                System.err.println("Lỗi phân tích số lượng thông báo chưa đọc: " + parts[0]);
+                jsonList = parts[1];
+                unreadCount = 0; // ⚠️ Dòng này khiến unreadCount không còn là effectively final
+            }
+        } else {
+            // Trường hợp 2: Payload chỉ là JSON_LIST (Server không gửi COUNT|)
+            jsonList = payload;
+            unreadCount = 0; // ⚠️ Dòng này cũng khiến unreadCount không còn là effectively final
+        }
+
+        // 2. Phân tích JSON
+        List<Notification> notifications = Notification.fromJsonArray(jsonList); // ⚠️ Dòng gán này khiến notifications không còn là effectively final
+
+        // ===============================================
+        // 💡 BƯỚC KHẮC PHỤC: TẠO CÁC BIẾN FINAL MỚI
+        // ===============================================
+        final int finalUnreadCount = unreadCount;
+        final List<Notification> finalNotifications = notifications;
+
+        // 3. Cập nhật giao diện
         Platform.runLater(() -> {
             notificationContainer.getChildren().clear();
-            for (Notification n : notifications) {
+            for (Notification n : finalNotifications) { // Sử dụng biến finalNotifications
                 addNotificationItem(n);
             }
-            updateUnreadCount(unread);
+            updateUnreadCount(finalUnreadCount); // Sử dụng biến finalUnreadCount
         });
     }
 
@@ -82,28 +112,67 @@ public class NotificationController {
             lblTitle.setText(n.getTitle());
             lblMessage.setText(n.getContent());
             lblTime.setText(formatTime(n.getCreatedAt()));
+            updateItemStyle(item, lblTitle, lblMessage, unreadDot, n.isRead());
 
-            // Nếu chưa đọc → tô màu + hiện chấm xanh
-            if (!n.isRead()) {
-                item.setStyle("-fx-background-color: #e3f2fd;");
-                unreadDot.setVisible(true);
-                unreadDot.setFill(Color.web("#007bff"));
-            }
-
-            // Click vào thông báo → đánh dấu đã đọc
+            // SIÊU THÔNG MINH: CHUYỂN MÀN HÌNH ĐÚNG NHƯ BẠN MUỐN
             item.setOnMouseClicked(e -> {
+                // 1. Đánh dấu đã đọc
                 if (!n.isRead()) {
                     client.send("MARK_NOTIFICATION_READ|" + n.getId());
                     n.setRead(true);
-                    item.setStyle("-fx-background-color: #ffffff;");
-                    unreadDot.setVisible(false);
+                    Platform.runLater(() -> updateItemStyle(item, lblTitle, lblMessage, unreadDot, true));
                 }
+
+                // 2. Đóng popup
+                if (popupStage != null) {
+                    popupStage.close();
+                }
+
+                String title = n.getTitle().toLowerCase();
+
+                // LOẠI 1: LỜI MỜI KẾT BẠN → MỞ TÌM BẠN
+                if (title.contains("gửi lời mời kết bạn") ||
+                        title.contains("mời kết bạn") ||
+                        title.contains("muốn kết bạn") ||
+                        title.contains("đã gửi lời mời kết bạn")) {
+                    SceneManager.changeScene("searchFriend.fxml");
+                    return;
+                }
+
+                // LOẠI 2: TIN NHẮN MỚI HOẶC ĐỒNG Ý KẾT BẠN → CHỈ MỞ CHAT (KHÔNG CHỌN AI!)
+                if (title.contains("tin nhắn mới") ||
+                        title.contains("đồng ý kết bạn") ||
+                        title.contains("đã gửi tin nhắn") ||
+                        title.contains("Nhóm mới") ||
+                        title.contains("đã gửi bạn một tin nhắn")) {
+                    SceneManager.changeScene("chat.fxml"); // CHỈ MỞ CHAT, KHÔNG CHỌN NGƯỜI
+                    return;
+                }
+
+                // MẶC ĐỊNH: MỞ CHAT
+                SceneManager.changeScene("chat.fxml");
             });
 
             notificationContainer.getChildren().add(item);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Giữ nguyên hàm update style đẹp như cũ
+    private void updateItemStyle(VBox item, Label title, Label message, Circle dot, boolean isRead) {
+        if (isRead) {
+            item.setStyle("-fx-background-color: #ffffff;");
+            dot.setVisible(false);
+            title.setStyle("-fx-font-weight: normal; -fx-text-fill: #555555;");
+            message.setStyle("-fx-font-weight: normal; -fx-text-fill: #666666;");
+        } else {
+            item.setStyle("-fx-background-color: #e3f2fd;");
+            dot.setVisible(true);
+            dot.setFill(Color.web("#007bff"));
+            title.setStyle("-fx-font-weight: bold; -fx-text-fill: #1a1a1a;");
+            message.setStyle("-fx-font-weight: bold; -fx-text-fill: #333333;");
         }
     }
 

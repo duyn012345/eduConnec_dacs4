@@ -14,16 +14,20 @@ public class RegisterController {
     private final String SERVER_IP = "127.0.0.1";
     private final int SERVER_PORT = 9000;
     private final NetworkClient client = NetworkClient.getInstance();
-
+    private java.util.function.BiConsumer<String, String> registerListener;
     @FXML
     public void initialize() {
         // Tái sử dụng kết nối cũ nếu có, hoặc kết nối mới
         if (!client.isConnected()) {
             client.connect(SERVER_IP, SERVER_PORT);
         }
+        registerListener = (cmd, payload) -> Platform.runLater(() -> handleServerMessage(cmd, payload));
 
+        // 2. Đăng ký listener
+        client.subscribe(registerListener);
+        // --- KẾT THÚC LOGIC MỚI ---
         // Listener chỉ đăng ký 1 lần
-        client.setOnMessageReceived((cmd, payload) -> Platform.runLater(() -> handleServerMessage(cmd, payload)));
+       // client.setOnMessageReceived((cmd, payload) -> Platform.runLater(() -> handleServerMessage(cmd, payload)));
     }
 
     @FXML
@@ -60,6 +64,7 @@ public class RegisterController {
                 new Alert(Alert.AlertType.INFORMATION,
                         "Đăng ký thành công!\nBạn có thể đăng nhập ngay.", ButtonType.OK).show();
                 try {
+                    client.unsubscribe(registerListener);
                     SceneManager.changeScene("login.fxml");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -79,6 +84,7 @@ public class RegisterController {
     @FXML
     public void goLogin() {
         try {
+            client.unsubscribe(registerListener);
             SceneManager.changeScene("login.fxml");
         } catch (Exception e) {
             e.printStackTrace();

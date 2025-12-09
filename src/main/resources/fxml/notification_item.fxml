@@ -2,40 +2,34 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<?import javafx.scene.image.Image?>
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      style="-fx-background-radius: 14; -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2);"
-      prefHeight="88.0" prefWidth="380.0"
-      fx:id="rootPane">
+<VBox fx:id="rootPane" prefHeight="88.0" prefWidth="380.0" style="-fx-background-radius: 14; -fx-background-color: #ffffff; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 2); -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
 
     <padding>
-        <Insets top="14" right="16" bottom="14" left="16"/>
+        <Insets bottom="14" left="16" right="16" top="14" />
     </padding>
 
-    <HBox spacing="14" alignment="CENTER_LEFT">
+    <HBox alignment="CENTER_LEFT" spacing="14">
         <!-- Chấm tròn chưa đọc -->
-        <Circle fx:id="unreadDot" radius="9" fill="#007bff" visible="false"/>
+        <Circle fx:id="unreadDot" fill="#007bff" radius="9" visible="false" />
 
         <!-- Avatar người gửi (hoặc icon thông báo) -->
         <ImageView fx:id="imgAvatar" fitHeight="48.0" fitWidth="48.0" preserveRatio="true">
             <image>
-                <Image url="@../image/notification_gray.png"/>
+                <Image url="@../image/notification_gray.png" />
             </image>
         </ImageView>
 
         <!-- Nội dung -->
         <VBox spacing="4" HBox.hgrow="ALWAYS">
-            <Label fx:id="lblTitle" text="Trần Thu Phương đã gửi lời mời kết bạn"
-                   style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #1a1a1a;" wrapText="true"/>
-            <Label fx:id="lblMessage" text="Chấp nhận ngay để cùng học tập nào!"
-                   style="-fx-font-size: 13; -fx-text-fill: #555555;" wrapText="true"/>
-            <Label fx:id="lblTime" text="2 phút trước"
-                   style="-fx-font-size: 11; -fx-text-fill: #888888;"/>
+            <Label fx:id="lblTitle" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #1a1a1a;" text="" wrapText="true" />
+            <Label fx:id="lblMessage" style="-fx-font-size: 13; -fx-text-fill: #555555;" text="" wrapText="true" />
+            <Label fx:id="lblTime" style="-fx-font-size: 11; -fx-text-fill: #888888;" text="" />
         </VBox>
     </HBox>
 

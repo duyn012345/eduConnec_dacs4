@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.WelcomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="858.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.WelcomeController">
    <children>
       <Button fx:id="btnTtuc" layoutX="255.0" layoutY="331.0" mnemonicParsing="false" onAction="#goLogin" style="-fx-background-color: #000000;" text="Tiếp tục" textFill="WHITE">
          <font>

@@ -22,7 +22,6 @@ public class Notification {
         this.isRead = isRead;
         this.createdAt = createdAt;
     }
-
     // THÊM ĐẦY ĐỦ GETTER – GIẢI QUYẾT 100% LỖI!
     public int getId() {
         return id;

@@ -20,23 +20,20 @@ public class NetworkClient {
     private Thread listenerThread;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private static final List<BiConsumer<String, String>> messageSubscribers = new ArrayList<>();
-    // CHỈ CÓ 1 LISTENER DUY NHẤT TRONG TOÀN ỨNG DỤNG
-    private BiConsumer<String, String> onMessageReceived;
+   // private BiConsumer<String, String> onMessageReceived;
     private final List<java.util.function.BiConsumer<String, String>> listeners = new ArrayList<>();
-    // Đảm bảo listener chỉ được đăng ký 1 lần
     private boolean isListenerRegistered = false;
-    private java.util.function.BiConsumer<String, String> globalListener;
+   // private java.util.function.BiConsumer<String, String> globalListener;
     private User currentUser;
+    private java.util.function.BiConsumer<String, String> temporaryControllerListener = null;
 
     private NetworkClient() {}
-
     public static NetworkClient getInstance() {
         if (instance == null) {
             instance = new NetworkClient();
         }
         return instance;
     }
-
     public boolean connect(String ip, int port) {
         try {
             socket = new Socket(ip, port);
@@ -50,7 +47,6 @@ public class NetworkClient {
             return false;
         }
     }
-
     private void startListener() {
         running.set(true);
         listenerThread = new Thread(() -> {
@@ -63,18 +59,15 @@ public class NetworkClient {
                     final int separatorIndex = message.indexOf('|');
                     final String cmd = separatorIndex == -1 ? message : message.substring(0, separatorIndex);
                     final String payload = separatorIndex == -1 ? "" : message.substring(separatorIndex + 1);
-
-                    // Đẩy lên JavaFX thread an toàn
-                    // ĐẨY TIN NHẮN LÊN JAVA FX THREAD VÀ CHUYỂN TIẾP CHO TẤT CẢ LISTENER
-                    Platform.runLater(() -> {
+                      Platform.runLater(() -> {
                         // Gọi listener cũ (nếu có)
-                        if (onMessageReceived != null) {
-                            onMessageReceived.accept(cmd, payload);
-                        }
+//                        if (onMessageReceived != null) {
+//                            onMessageReceived.accept(cmd, payload);
+//                        }
                         // Gọi listener mới (subscribe) – QUAN TRỌNG NHẤT!
-                        if (globalListener != null) {
-                            globalListener.accept(cmd, payload);
-                        }
+//                        if (globalListener != null) {
+//                            globalListener.accept(cmd, payload);
+//                        }
                         // Gọi tất cả các listener đã subscribe (ChatController, HomeController, v.v.)
                         broadcastMessage(cmd, payload);
                     });
@@ -109,7 +102,6 @@ public class NetworkClient {
                 out.flush();
             }
             Thread.sleep(300); // Đảm bảo server nhận được LOGOUT
-
             if (socket != null && !socket.isClosed()) {
                 socket.close();
             }
@@ -117,29 +109,25 @@ public class NetworkClient {
         } finally {
             currentUser = null;
             isListenerRegistered = false;
-            onMessageReceived = null;
+            //onMessageReceived = null;
+            // FIX LỖI: Dọn dẹp các listeners theo kiến trúc mới
+            this.temporaryControllerListener = null; // Clear listener tạm thời
+            this.listeners.clear(); // Quan trọng: Xóa tất cả listeners đã đăng ký
             System.out.println("Đã ngắt kết nối và dọn dẹp sạch sẽ.");
         }
     }
 
-    // HÀM CHUẨN DUY NHẤT – CHỐNG TRÙNG 100%
-//    public void setOnMessageReceived(BiConsumer<String, String> callback) {
-//        if (!isListenerRegistered) {
-//            this.onMessageReceived = callback;
-//            this.isListenerRegistered = true;
-//            System.out.println("Message listener đã được đăng ký (chỉ 1 lần duy nhất)");
-//        } else {
-//            System.out.println("Cảnh báo: Listener đã tồn tại → Bỏ qua đăng ký trùng!");
-//        }
-//    }
-    // HÀM ĐĂNG KÝ NHẬN TIN NHẮN TỪ BẤT KỲ CONTROLLER NÀO
-    public void subscribe(java.util.function.BiConsumer<String, String> listener) {
+     public void subscribe(java.util.function.BiConsumer<String, String> listener) {
         // NẾU ĐÃ CÓ RỒI THÌ KHÔNG THÊM NỮA → TRÁNH LẶP!
         if (!listeners.contains(listener)) {
             listeners.add(listener);
         }
     }
-
+    // Trong NetworkClient.java
+    public void unsubscribe(java.util.function.BiConsumer<String, String> listener) {
+        // Loại bỏ listener khỏi danh sách
+        listeners.remove(listener);
+    }
     // HÀM GỌI KHI MUỐN CHUYỂN TIẾP TIN NHẮN CHO TẤT CẢ CONTROLLER
     public void broadcastMessage(String cmd, String payload) {
         // GỌI TẤT CẢ CÁC LISTENER ĐÃ ĐĂNG KÝ
@@ -152,43 +140,38 @@ public class NetworkClient {
         }
     }
     public void setOnMessageReceived(java.util.function.BiConsumer<String, String> listener) {
-        this.globalListener = listener;
-    }
-
-    // Trong hàm đọc tin nhắn từ server (thường là trong thread đọc socket)
-    // Bạn đang có chỗ gọi globalListener.accept(cmd, payload) → sửa thành:
-    private void processIncomingMessage(String message) {
-        String[] parts = message.split("\\|", 2);
-        String cmd = parts[0];
-        String payload = parts.length > 1 ? parts[1] : "";
-
-        // GỌI CẢ 2: CÁI CŨ + CÁI MỚI (để chắc chắn 100%)
-        if (globalListener != null) {
-            globalListener.accept(cmd, payload);
+        //this.globalListener = listener;
+        // 1. Loại bỏ listener tạm thời cũ (nếu có) khỏi danh sách broadcast
+        if (this.temporaryControllerListener != null) {
+            this.listeners.remove(this.temporaryControllerListener);
         }
-        broadcastMessage(cmd, payload); // ← GỌI TẤT CẢ CÁC LISTENER ĐÃ SUBSCRIBE
-    }
 
+        // 2. Gán listener mới
+        this.temporaryControllerListener = listener;
+
+        // 3. Nếu listener mới không null, thêm nó vào danh sách broadcast
+        if (listener != null) {
+            subscribe(listener);
+        }
+    }
+    public java.util.function.BiConsumer<String, String> getOnMessageReceived() {
+        return this.temporaryControllerListener;
+    }
     public boolean isConnected() {
         return socket != null && !socket.isClosed() && socket.isConnected();
     }
-
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
-
     public User getCurrentUser() {
         return currentUser;
     }
-
     public boolean isLoggedIn() {
         return currentUser != null;
     }
-
     public String getUsername() {
         return currentUser != null ? currentUser.getUsername() : "Khách";
     }
-
     public void requestNotifications() {
         send("GET_NOTIFICATIONS");
     }

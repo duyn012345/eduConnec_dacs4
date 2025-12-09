@@ -3,38 +3,60 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="600.0" prefWidth="860.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.ChatController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="615.0" prefWidth="861.0" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.ChatController">
 
    <content>
-      <AnchorPane prefHeight="600.0" prefWidth="860.0" style="-fx-background-color: #f0f2f5;">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="616.0" prefWidth="858.0" style="-fx-background-color: #f0f2f5;">
          <!-- ==================== SIDEBAR TRÁI (ĐOẠN CHAT) ==================== -->
-         <AnchorPane layoutX="49.0" layoutY="0.0" prefHeight="600.0" prefWidth="230.0" style="-fx-background-color: #D3D9C7; -fx-background-radius: 0 15 15 0;">
+         <AnchorPane layoutX="49.0" layoutY="0.0" prefHeight="615.0" prefWidth="230.0" style="-fx-background-color: #D3D9C7; -fx-background-radius: 0 15 15 0;">
             <children>
                <Label layoutX="80.0" layoutY="20.0" text="Đoạn chat" textFill="#033859">
                   <font><Font name="Segoe UI Bold" size="18.0" /></font>
                </Label>
 
-               <TextField fx:id="tfSearchFriend" layoutX="6.0" layoutY="64.0" prefHeight="35.0" prefWidth="210.0" promptText="Tìm kiếm..." style="-fx-background-radius: 20;" />
-
                <!-- DANH SÁCH BẠN BÈ - BỌC TRONG ScrollPane ĐỂ CUỘN MƯỢT -->
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="5.0" layoutY="105.0" prefHeight="485.0" prefWidth="221.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
+               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="5.0" layoutY="141.0" prefHeight="449.0" prefWidth="221.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
                   <content>
-                     <ListView fx:id="lvFriends" prefWidth="221.0" style="-fx-background-color: transparent;" />
+                     <ListView fx:id="lvFriends" prefHeight="336.0" prefWidth="219.0" style="-fx-background-color: transparent;" />
                   </content>
                </ScrollPane>
+               <Label layoutX="42.0" layoutY="120.0" text="Danh sách bạn bè" textFill="#1a1a1a">
+                  <font>
+                     <Font name="Segoe UI Bold" size="15.0" />
+                  </font>
+               </Label>
+               <AnchorPane layoutX="16.0" layoutY="72.0" prefHeight="40.0" prefWidth="200.0">
+                  <children>
+                    
+                     <TextField fx:id="tfSearchFriend" layoutX="-1.0" layoutY="1.0" prefHeight="35.0" prefWidth="171.0" promptText="Tìm kiếm..." style="-fx-background-radius: 20;" />
+                     <Button fx:id="btnSearchChat" layoutX="146.0" layoutY="3.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="50.0" style="-fx-background-radius: 20; -fx-background-color: #033859;">
+                        <graphic>
+                           <AnchorPane prefHeight="16.0" prefWidth="34.0">
+                              <children>
+                                 <ImageView fitHeight="21.0" fitWidth="22.0" layoutX="6.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../image/search1.png" />
+                                    </image>
+                                 </ImageView>
+                              </children>
+                           </AnchorPane>
+                        </graphic>
+                     </Button>
+                  </children>
+               </AnchorPane>
             </children>
          </AnchorPane>
 
          <!-- ==================== HEADER TRÊN CÙNG ==================== -->
-         <AnchorPane layoutX="48.0" layoutY="0.0" prefHeight="60.0" prefWidth="795.0" style="-fx-background-color: #2f6e8a;">
+         <AnchorPane layoutX="48.0" layoutY="0.0" prefHeight="60.0" prefWidth="810.0" style="-fx-background-color: #2f6e8a;">
             <children>
                <Label fx:id="lblCurrentUser" layoutX="719.0" layoutY="18.0" text="Username" textFill="white">
                   <font><Font name="Segoe UI Semibold" size="14.0" /></font>
@@ -42,13 +64,27 @@
                <ImageView fx:id="imgAvatar" fitHeight="35.0" fitWidth="35.0" layoutX="682.0" layoutY="12.0">
                   <image><Image url="@../image/avatar.png" /></image>
                </ImageView>
-               <Button fx:id="bntNotification" layoutX="618.0" layoutY="9.0" mnemonicParsing="false">
+               <Button fx:id="bntNotification" layoutX="618.0" layoutY="9.0" mnemonicParsing="false" style="-fx-background-radius: 20; -fx-background-color: #D3D9C7;">
                   <graphic>
                      <AnchorPane prefHeight="29.0" prefWidth="34.0">
                         <children>
-                           <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@../image/notification_gray.png" />
+                              </image>
+                           </ImageView>
+                           <Label fx:id="lblNotificationBadge" layoutX="22.0" layoutY="0.0" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 50%; -fx-text-fill: white; -fx-font-size: 10px; -fx-alignment: center;" text="0" visible="false" />
+                        </children>
+                     </AnchorPane>
+                  </graphic>
+               </Button>
+               <Button fx:id="btnCreateGoup" layoutX="552.0" layoutY="9.0" mnemonicParsing="false" style="-fx-background-radius: 20; -fx-background-color: #D3D9C7;">
+                  <graphic>
+                     <AnchorPane prefHeight="29.0" prefWidth="34.0">
+                        <children>
+                           <ImageView fitHeight="25.0" fitWidth="26.0" layoutX="5.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../image/addFrd.png" />
                               </image>
                            </ImageView>
                         </children>
@@ -59,11 +95,11 @@
          </AnchorPane>
 
          <!-- ==================== KHUNG CHAT CHÍNH ==================== -->
-         <AnchorPane layoutX="282.0" layoutY="60.0" prefHeight="540.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+         <AnchorPane layoutX="282.0" layoutY="60.0" prefHeight="551.0" prefWidth="381.0" style="-fx-background-color: white; -fx-background-radius: 15;">
             <children>
                <AnchorPane prefHeight="60.0" prefWidth="381.0" style="-fx-background-color: #f0f2f5;">
                   <children>
-                     <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="8.0">
+                     <ImageView fx:id="imgChatAvatar" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="8.0">
                         <image><Image url="@../image/avatar.png" /></image>
                      </ImageView>
                      <!-- Tên người đang chat -->
@@ -72,43 +108,66 @@
                      </Label>
                      <!-- Trạng thái hoạt động -->
                      <Label fx:id="lblStatus" layoutX="75.0" layoutY="32.0" style="-fx-font-size: 12;" text="Hoạt động gần đây" textFill="#666" />
-                     <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="274.0" layoutY="11.0">
-                        <image><Image url="@../image/meet.png" /></image>
+                     <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="339.0" layoutY="16.0">
+                        <image>
+                           <Image url="@../image/error.png" />
+                        </image>
                      </ImageView>
-                     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="326.0" layoutY="17.0">
-                        <image><Image url="@../image/addFr.png" /></image>
-                     </ImageView>
+                     <Button fx:id="btnCallVideo" layoutX="285.0" layoutY="12.0" mnemonicParsing="false" style="-fx-background-radius: 20; -fx-background-color: #f0f2f5;">
+                        <graphic>
+                           <AnchorPane prefHeight="29.0" prefWidth="34.0">
+                              <children>
+                                 <ImageView fitHeight="28.0" fitWidth="27.0" layoutX="4.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../image/google-meet.png" />
+                                    </image>
+                                 </ImageView>
+                              </children>
+                           </AnchorPane>
+                        </graphic>
+                     </Button>
                   </children>
                </AnchorPane>
 
-               <TextArea fx:id="taChat" editable="false" layoutY="60.0" prefHeight="420.0" prefWidth="377.0" style="-fx-background-color: #f8f9fa; -fx-font-size: 14px;" wrapText="true" />
+<!--               <TextArea fx:id="taChat" editable="false" layoutX="2.0" layoutY="60.0" prefHeight="434.0" prefWidth="377.0" style="-fx-background-color: #f8f9fa; -fx-font-size: 14px;" wrapText="true" />-->
+               <ListView fx:id="lvChatHistory" editable="false" layoutX="2.0" layoutY="60.0" prefHeight="434.0" prefWidth="377.0" style="-fx-background-color: #f8f9fa; -fx-font-size: 14px;" />
 
-               <TextField fx:id="tfMessage" layoutX="70.0" layoutY="485.0" prefHeight="40.0" prefWidth="279.0" promptText="Nhập tin nhắn..." style="-fx-background-radius: 25; -fx-padding: 10;" />
+               <TextField fx:id="tfMessage" layoutX="70.0" layoutY="501.0" prefHeight="40.0" prefWidth="279.0" promptText="Nhập tin nhắn..." style="-fx-background-radius: 25; -fx-padding: 10;" />
 
-               <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="20.0" layoutY="488.0">
-                  <image><Image url="@../image/attach.png" /></image>
-               </ImageView>
-
-               <Button fx:id="btnSend" layoutX="319.0" layoutY="486.0" onAction="#sendMessage" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: #033859; -fx-background-radius: 25; -fx-font-weight: bold;" text="Gửi" textFill="white" />
+               <Button fx:id="btnSend" layoutX="319.0" layoutY="502.0" onAction="#sendMessage" prefHeight="40.0" prefWidth="60.0" style="-fx-background-color: #033859; -fx-background-radius: 25; -fx-font-weight: bold;" text="Gửi" textFill="white" />
+               <Button fx:id="btnSendFile" layoutX="14.0" layoutY="500.0" mnemonicParsing="false" style="-fx-background-radius: 20; -fx-background-color: #f0f2f5;">
+                  <graphic>
+                     <AnchorPane prefHeight="29.0" prefWidth="34.0">
+                        <children>
+                           <ImageView fitHeight="28.0" fitWidth="27.0" layoutX="4.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../image/attach.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </graphic>
+               </Button>
+               <ProgressBar fx:id="pbUploadProgress" layoutX="70.0" layoutY="495.0" prefWidth="279.0" progress="0.0" visible="false" />
             </children>
          </AnchorPane>
 
          <!-- ==================== DANH SÁCH ONLINE (BÊN PHẢI) - CŨNG CÓ CUỘN ==================== -->
-         <AnchorPane layoutX="665.0" layoutY="60.0" prefHeight="540.0" prefWidth="182.0" style="-fx-background-color: #D3D9C7; -fx-background-radius: 15;">
+         <AnchorPane layoutX="665.0" layoutY="60.0" prefHeight="554.0" prefWidth="192.0" style="-fx-background-color: #D3D9C7; -fx-background-radius: 15;">
             <children>
-               <Label layoutX="15.0" layoutY="15.0" text="Online" textFill="#033859">
-                  <font><Font name="Segoe UI Bold" size="16.0" /></font>
+               <Label layoutX="14.0" layoutY="25.0" text="Bạn bè đang hoạt động" textFill="#033859">
+                  <font><Font name="Segoe UI Bold" size="14.0" /></font>
                </Label>
 
                <!-- ScrollPane bọc ListView Online -->
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="2.0" layoutY="50.0" prefHeight="480.0" prefWidth="179.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
+               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="2.0" layoutY="65.0" prefHeight="465.0" prefWidth="187.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
                   <content>
-                     <ListView fx:id="lvOnline" prefWidth="179.0" style="-fx-background-color: transparent;" />
+                     <ListView fx:id="lvOnline" prefHeight="429.0" prefWidth="188.0" style="-fx-background-color: transparent;" />
                   </content>
                </ScrollPane>
             </children>
          </AnchorPane>
-         <AnchorPane prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #033859; -fx-background-radius: 15;">
+         <AnchorPane prefHeight="615.0" prefWidth="49.0" style="-fx-background-color: #033859; -fx-background-radius: 15;">
             <children>
                <Button fx:id="btnLogout" layoutX="2.0" layoutY="473.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">
                   <graphic>

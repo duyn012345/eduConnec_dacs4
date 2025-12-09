@@ -20,7 +20,7 @@
       <VBox alignment="CENTER" layoutX="195.0" layoutY="52.0" spacing="10">
          <children>
             <ImageView fx:id="imgAvatar" fitHeight="120.0" fitWidth="120.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, #000000, 10, 0, 0, 5);" />
-            <Button onAction="#chooseAvatar" style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Chọn ảnh đại diện" />
+            <Button onAction="#chooseAvatarAction" style="-fx-background-color: #007bff; -fx-text-fill: white;" text="Chọn ảnh đại diện" />
          </children>
       </VBox>
       <GridPane hgap="15" layoutX="98.0" layoutY="240.0" vgap="12">

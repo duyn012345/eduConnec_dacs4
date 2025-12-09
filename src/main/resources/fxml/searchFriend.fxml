@@ -12,13 +12,12 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.SearchFriendController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.SearchFriendController">
    <content>
-      <AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="881.0" prefWidth="858.0">
+      <AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="858.0">
          <children>
 
-            <!-- Panel phải (thông tin user) -->
-            <AnchorPane layoutX="654.0" layoutY="4.0" prefHeight="881.0" prefWidth="200.0" style="-fx-background-color: #B8D9D0;">
+            <AnchorPane layoutX="654.0" layoutY="4.0" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #B8D9D0;">
                <children>
                   <ImageView fx:id="imgAvatar" fitHeight="43.0" fitWidth="39.0" layoutX="86.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -73,7 +72,6 @@
 
                   <AnchorPane fx:id="notificationPopup" layoutX="480" layoutY="80" prefHeight="450" prefWidth="360" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #ddd; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0,0.3), 10, 0, 0, 5);" visible="false">
                      <children>
-                        <!-- Tiêu đề + nút đóng -->
                         <AnchorPane prefHeight="50" prefWidth="360" style="-fx-background-color: #033859; -fx-background-radius: 15 15 0 0;">
                            <children>
                               <Label layoutX="20" layoutY="15" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white;" text="Thông báo" />
@@ -81,33 +79,46 @@
                            </children>
                         </AnchorPane>
 
-                        <!-- Danh sách thông báo -->
                         <ScrollPane fitToWidth="true" layoutX="0" layoutY="50" prefHeight="400" prefWidth="360" style="-fx-background: white;">
                            <content>
                               <VBox fx:id="notificationList" prefWidth="340" spacing="8" style="-fx-padding: 10;" />
                            </content>
                         </ScrollPane>
 
-                        <!-- Nút đánh dấu tất cả đã đọc (tùy chọn đẹp) -->
                         <Button layoutX="100" layoutY="410" prefHeight="30" prefWidth="160" style="-fx-background-color: #033859; -fx-text-fill: white; -fx-background-radius: 10;" text="Đánh dấu tất cả đã đọc" />
                      </children>
                   </AnchorPane>
                </children>
             </AnchorPane>
 
-            <!-- Nội dung chính -->
-            <AnchorPane layoutX="57.0" layoutY="-1.0" prefHeight="881.0" prefWidth="609.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;">
+            <AnchorPane layoutX="57.0" layoutY="-1.0" prefHeight="600.0" prefWidth="609.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;">
                <children>
-                  <TextField layoutX="128.0" layoutY="39.0" prefHeight="34.0" prefWidth="250.0" promptText=" Tìm kiếm..." style="-fx-background-radius: 10;" />
 
-                  <!-- ĐỒNG HỒ -->
                   <Label fx:id="lblTimeDate" layoutX="286.0" layoutY="10.0" text="time-date" />
 
-                  <Label layoutX="40.0" layoutY="91.0" text="Gợi ý ">
+                  <Label fx:id="lblSearchResultTitle" layoutX="40.0" layoutY="91.0" text="Kết quả tìm kiếm" visible="false">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
+
+                  <ScrollPane fx:id="searchScrollPane" layoutX="12.0" layoutY="119.0" prefHeight="266.0" prefWidth="307.0" visible="false">
+                     <content>
+                        <AnchorPane fx:id="searchResultPane" prefHeight="260.0" prefWidth="308.0" style="-fx-border-color: grey;">
+                           <children>
+                              <VBox fx:id="searchResultList" layoutX="10.0" layoutY="10.0" prefWidth="269.0" spacing="10.0">
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+
+                  <Label fx:id="lblSuggestionTitle" layoutX="40.0" layoutY="91.0" text="Gợi ý bạn bè">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+
                   <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="513.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../image/AI.png" />
@@ -117,31 +128,25 @@
                      </effect>
                   </ImageView>
 
-                  <!-- Danh sách gợi ý kết bạn -->
-                  <ScrollPane layoutX="40.0" layoutY="119.0" prefHeight="395.0" prefWidth="289.0">
-                  <content>
-                     <AnchorPane fx:id="suggestionPane" layoutX="40.0" layoutY="119.0" prefHeight="395.0" prefWidth="289.0" style="-fx-border-color: grey;">
-                         <children>
-                             <VBox fx:id="suggestionList" layoutX="10.0" layoutY="10.0" prefWidth="269.0" spacing="10.0">
-                           <!-- Mỗi mục gợi ý sẽ được sinh động từ Java -->
-                            </VBox>
-                        </children>
-                     </AnchorPane>
-                  </content>
+                  <ScrollPane fx:id="suggestionScrollPane" layoutX="12.0" layoutY="119.0" prefHeight="266.0" prefWidth="307.0">
+                     <content>
+                        <AnchorPane fx:id="suggestionPane" prefHeight="260.0" prefWidth="308.0" style="-fx-border-color: grey;">
+                           <children>
+                              <VBox fx:id="suggestionList" layoutX="10.0" layoutY="10.0" prefWidth="269.0" spacing="10.0">
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
                   </ScrollPane>
 
-                  <Button layoutX="366.0" layoutY="39.0" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-radius: 10; -fx-background-color: #033859;" text="Search" textFill="WHITE">
-                     <font><Font name="System Bold" size="14.0" /></font>
-                  </Button>
-                  <AnchorPane layoutX="60.0" layoutY="521.0" prefHeight="333.0" prefWidth="325.0">
+                  <AnchorPane layoutX="15.0" layoutY="404.0" prefHeight="100.0" prefWidth="585.0" style="-fx-border-color: gray;">
                      <children>
-                        <!-- Nhóm học cộng đồng -->
                         <Label layoutX="98.0" layoutY="14.0" text="Nhóm học cộng đồng">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="89.0" fitWidth="115.0" layoutX="25.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="89.0" fitWidth="115.0" layoutX="299.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/bg3.jpg" />
                            </image>
@@ -151,13 +156,13 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="127.0" layoutY="197.0" text="23 thành viên" textFill="#797373" />
+                        <Label layoutX="401.0" layoutY="114.0" text="23 thành viên" textFill="#797373" />
                         <ImageView fitHeight="89.0" fitWidth="115.0" layoutX="14.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/logo.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="127.0" layoutY="167.0" text="Triết học">
+                        <Label layoutX="401.0" layoutY="84.0" text="Triết học">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -169,32 +174,58 @@
                      <graphic>
                         <AnchorPane prefHeight="29.0" prefWidth="34.0">
                            <children>
-            
-                              <!-- ICON CHUÔNG THÔNG BÁO - QUAN TRỌNG NHẤT -->
+
                               <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../image/notification_gray.png" />
                                  </image>
                               </ImageView>
+
+                              <Label fx:id="lblNotificationBadge" alignment="CENTER" layoutX="18.0" layoutY="1.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: #ff4444; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 0 4 0 4;" text="0" visible="false" />
                            </children>
                         </AnchorPane>
                      </graphic>
                   </Button>
-               </children>
-            </AnchorPane>
-            <!-- VBox hiển thị lời mời đến bạn -->
-            <ScrollPane layoutX="399.0" layoutY="124.0" prefHeight="395.0" prefWidth="250.0">
-               <content>
-                  <AnchorPane fx:id="requestPane" layoutX="399.0" layoutY="124.0" prefHeight="395.0" prefWidth="250.0" style="-fx-border-color: grey;">
+                  <ScrollPane layoutX="338.0" layoutY="118.0" prefHeight="268.0" prefWidth="265.0">
+                     <content>
+                        <AnchorPane fx:id="requestPane" layoutX="399.0" layoutY="124.0" prefHeight="257.0" prefWidth="268.0" style="-fx-border-color: grey;">
+                           <children>
+                              <VBox fx:id="requestList" layoutX="10.0" layoutY="10.0" prefWidth="230.0" spacing="10.0">
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <Label layoutX="338.0" layoutY="91.0" text="Danh sách lời mời Kb">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane layoutX="123.0" layoutY="42.0" prefHeight="54.0" prefWidth="296.0">
                      <children>
-                        <VBox fx:id="requestList" layoutX="10.0" layoutY="10.0" prefWidth="230.0" spacing="10.0">
-                           <!-- Các request sẽ được thêm từ controller -->
-                        </VBox>
+                        <TextField fx:id="tfSearchInput" layoutX="24.0" layoutY="9.0" prefHeight="34.0" prefWidth="250.0" promptText=" Tìm kiếm..." style="-fx-background-radius: 10;" />
+
+                        <Button fx:id="btnSearchFr" layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="32.0" prefWidth="46.0" style="-fx-background-radius: 10; -fx-background-color: #033859;" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <AnchorPane prefHeight="22.0" prefWidth="23.0">
+                                 <children>
+                                    <ImageView fitHeight="25.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../image/search1.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
+                        </Button>
                      </children>
                   </AnchorPane>
-               </content>
-            </ScrollPane>
-            <AnchorPane prefHeight="530.0" prefWidth="49.0" style="-fx-background-color: #033859; -fx-background-radius: 15;">
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #033859; -fx-background-radius: 15;">
                <children>
                   <Button fx:id="btnLogout" layoutX="2.0" layoutY="473.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">
                      <graphic>
@@ -281,3 +312,315 @@
       </AnchorPane>
    </content>
 </ScrollPane>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.scene.control.Label?>-->
+<!--<?import javafx.scene.control.ScrollPane?>-->
+<!--<?import javafx.scene.control.TextField?>-->
+<!--<?import javafx.scene.effect.Bloom?>-->
+<!--<?import javafx.scene.image.Image?>-->
+<!--<?import javafx.scene.image.ImageView?>-->
+<!--<?import javafx.scene.layout.AnchorPane?>-->
+<!--<?import javafx.scene.layout.VBox?>-->
+<!--<?import javafx.scene.shape.Line?>-->
+<!--<?import javafx.scene.text.Font?>-->
+
+<!--<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.educonnec_dacs4.controllers.SearchFriendController">-->
+<!--   <content>-->
+<!--      <AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="858.0">-->
+<!--         <children>-->
+
+<!--            &lt;!&ndash; Panel phải (thông tin user) &ndash;&gt;-->
+<!--            <AnchorPane layoutX="654.0" layoutY="4.0" prefHeight="600.0" prefWidth="200.0" style="-fx-background-color: #B8D9D0;">-->
+<!--               <children>-->
+<!--                  <ImageView fx:id="imgAvatar" fitHeight="43.0" fitWidth="39.0" layoutX="86.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                     <image>-->
+<!--                        <Image url="@../image/avatar.png" />-->
+<!--                     </image>-->
+<!--                  </ImageView>-->
+<!--                  <Label layoutX="64.0" layoutY="76.0" prefHeight="21.0" prefWidth="24.0" text="Hi,">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="14.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label fx:id="lblUsername" layoutX="86.0" layoutY="77.0" prefHeight="21.0" prefWidth="85.0" text="username">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="15.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="77.0" layoutY="113.0" text="Thành viên" />-->
+<!--                  <Label layoutX="37.0" layoutY="143.0" text="50" textFill="#8a7f7f">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="28.0" layoutY="169.0" text="Bạn bè">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="106.0" layoutY="143.0" text="50" textFill="#8a7f7f">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="104.0" layoutY="169.0" text="File ">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="163.0" layoutY="144.0" text="50" textFill="#8a7f7f">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Label layoutX="154.0" layoutY="170.0" text="Nhóm">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="13.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <Line endX="32.0" endY="-27.0" layoutX="50.0" layoutY="212.0" startX="32.0" startY="-65.0" strokeLineCap="BUTT" strokeType="OUTSIDE" strokeWidth="0.5" />-->
+<!--                  <Line endX="32.0" endY="-27.0" layoutX="109.0" layoutY="212.0" startX="32.0" startY="-65.0" strokeLineCap="BUTT" strokeType="OUTSIDE" strokeWidth="0.5" />-->
+<!--                  <Label layoutX="93.0" layoutY="230.0" text="Lịch" />-->
+<!--                  <Label layoutX="56.0" layoutY="378.0" text="Hoạt động gần đây" />-->
+
+<!--                  <AnchorPane fx:id="notificationPopup" layoutX="480" layoutY="80" prefHeight="450" prefWidth="360" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #ddd; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0,0.3), 10, 0, 0, 5);" visible="false">-->
+<!--                     <children>-->
+<!--                        &lt;!&ndash; Tiêu đề + nút đóng &ndash;&gt;-->
+<!--                        <AnchorPane prefHeight="50" prefWidth="360" style="-fx-background-color: #033859; -fx-background-radius: 15 15 0 0;">-->
+<!--                           <children>-->
+<!--                              <Label layoutX="20" layoutY="15" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white;" text="Thông báo" />-->
+<!--                              <Button fx:id="btnCloseNotification" layoutX="320" layoutY="10" prefHeight="30" prefWidth="30" style="-fx-background-color: transparent; -fx-font-size: 20; -fx-text-fill: white;" text="×" />-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+
+<!--                        &lt;!&ndash; Danh sách thông báo &ndash;&gt;-->
+<!--                        <ScrollPane fitToWidth="true" layoutX="0" layoutY="50" prefHeight="400" prefWidth="360" style="-fx-background: white;">-->
+<!--                           <content>-->
+<!--                              <VBox fx:id="notificationList" prefWidth="340" spacing="8" style="-fx-padding: 10;" />-->
+<!--                           </content>-->
+<!--                        </ScrollPane>-->
+
+<!--                        &lt;!&ndash; Nút đánh dấu tất cả đã đọc (tùy chọn đẹp) &ndash;&gt;-->
+<!--                        <Button layoutX="100" layoutY="410" prefHeight="30" prefWidth="160" style="-fx-background-color: #033859; -fx-text-fill: white; -fx-background-radius: 10;" text="Đánh dấu tất cả đã đọc" />-->
+<!--                     </children>-->
+<!--                  </AnchorPane>-->
+<!--               </children>-->
+<!--            </AnchorPane>-->
+
+<!--            &lt;!&ndash; Nội dung chính &ndash;&gt;-->
+<!--            <AnchorPane layoutX="57.0" layoutY="-1.0" prefHeight="600.0" prefWidth="609.0" style="-fx-background-color: #ffffff; -fx-background-radius: 25;">-->
+<!--               <children>-->
+
+<!--                  &lt;!&ndash; ĐỒNG HỒ &ndash;&gt;-->
+<!--                  <Label fx:id="lblTimeDate" layoutX="286.0" layoutY="10.0" text="time-date" />-->
+
+<!--                  <Label fx:id="lblSearchResultTitle" layoutX="40.0" layoutY="91.0" text="Kết quả tìm kiếm">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="14.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--&lt;!&ndash;                  <Label fx:id="lblSuggestionTitle" layoutX="40.0" layoutY="91.0" text="Gợi ý bạn bè">&ndash;&gt;-->
+<!--&lt;!&ndash;                     <font>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <Font name="System Bold" size="14.0" />&ndash;&gt;-->
+<!--&lt;!&ndash;                     </font>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </Label>&ndash;&gt;-->
+<!--                  <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="513.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                     <image>-->
+<!--                        <Image url="@../image/AI.png" />-->
+<!--                     </image>-->
+<!--                     <effect>-->
+<!--                        <Bloom />-->
+<!--                     </effect>-->
+<!--                  </ImageView>-->
+
+<!--                  &lt;!&ndash; Danh sách gợi ý kết bạn &ndash;&gt;-->
+<!--                  <ScrollPane fx:id="searchScrollPane" layoutX="12.0" layoutY="119.0" prefHeight="266.0" prefWidth="307.0">-->
+<!--                  <content>-->
+<!--                     <AnchorPane layoutX="40.0" layoutY="119.0" prefHeight="260.0" prefWidth="308.0" style="-fx-border-color: grey;">-->
+<!--                         <children>-->
+<!--&lt;!&ndash;                            <Label fx:id="lblSuggestionTitle" text="Gợi ý bạn bè" />&ndash;&gt;-->
+<!--                             <VBox fx:id="suggestionList" layoutX="10.0" layoutY="10.0" prefWidth="269.0" spacing="10.0">-->
+<!--                           &lt;!&ndash; Mỗi mục gợi ý sẽ được sinh động từ Java &ndash;&gt;-->
+<!--                            </VBox>-->
+<!--                        </children>-->
+<!--                     </AnchorPane>-->
+<!--                  </content>-->
+<!--                  </ScrollPane>-->
+<!--                  <AnchorPane layoutX="15.0" layoutY="404.0" prefHeight="100.0" prefWidth="585.0" style="-fx-border-color: gray;">-->
+<!--                     <children>-->
+<!--                        &lt;!&ndash; Nhóm học cộng đồng &ndash;&gt;-->
+<!--                        <Label layoutX="98.0" layoutY="14.0" text="Nhóm học cộng đồng">-->
+<!--                           <font>-->
+<!--                              <Font name="System Bold" size="14.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                        <ImageView fitHeight="89.0" fitWidth="115.0" layoutX="299.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                           <image>-->
+<!--                              <Image url="@../image/bg3.jpg" />-->
+<!--                           </image>-->
+<!--                        </ImageView>-->
+<!--                        <Label layoutX="125.0" layoutY="85.0" text="pháp luật đại cương">-->
+<!--                           <font>-->
+<!--                              <Font name="System Bold" size="14.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                        <Label layoutX="401.0" layoutY="114.0" text="23 thành viên" textFill="#797373" />-->
+<!--                        <ImageView fitHeight="89.0" fitWidth="115.0" layoutX="14.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                           <image>-->
+<!--                              <Image url="@../image/logo.png" />-->
+<!--                           </image>-->
+<!--                        </ImageView>-->
+<!--                        <Label layoutX="401.0" layoutY="84.0" text="Triết học">-->
+<!--                           <font>-->
+<!--                              <Font name="System Bold" size="14.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                        <Label layoutX="127.0" layoutY="111.0" text="23 thành viên" textFill="#797373" />-->
+<!--                     </children>-->
+<!--                  </AnchorPane>-->
+<!--                  <Button fx:id="bntNotification" layoutX="567.0" layoutY="32.0" mnemonicParsing="false">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="29.0" prefWidth="34.0">-->
+<!--                           <children>-->
+
+<!--                              <ImageView fx:id="imgBell" fitHeight="25.0" fitWidth="26.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/notification_gray.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+
+<!--                              <Label fx:id="lblNotificationBadge" alignment="CENTER" layoutX="18.0" layoutY="1.0" prefHeight="16.0" prefWidth="16.0" style="-fx-background-color: #ff4444; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 0 4 0 4;" text="0" visible="false" />-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  &lt;!&ndash; VBox hiển thị lời mời đến bạn &ndash;&gt;-->
+<!--                  <ScrollPane layoutX="338.0" layoutY="118.0" prefHeight="268.0" prefWidth="265.0">-->
+<!--                     <content>-->
+<!--                        <AnchorPane fx:id="requestPane" layoutX="399.0" layoutY="124.0" prefHeight="257.0" prefWidth="268.0" style="-fx-border-color: grey;">-->
+<!--                           <children>-->
+<!--                              <VBox fx:id="requestList" layoutX="10.0" layoutY="10.0" prefWidth="230.0" spacing="10.0">-->
+<!--                           &lt;!&ndash; Các request sẽ được thêm từ controller &ndash;&gt;-->
+<!--                        </VBox>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </content>-->
+<!--                  </ScrollPane>-->
+<!--                  <Label layoutX="338.0" layoutY="91.0" text="Danh sách lời mời Kb">-->
+<!--                     <font>-->
+<!--                        <Font name="System Bold" size="14.0" />-->
+<!--                     </font>-->
+<!--                  </Label>-->
+<!--                  <AnchorPane layoutX="123.0" layoutY="42.0" prefHeight="54.0" prefWidth="296.0">-->
+<!--                     <children>-->
+<!--                        <TextField fx:id="tfSearchInput" layoutX="24.0" layoutY="9.0" prefHeight="34.0" prefWidth="250.0" promptText=" Tìm kiếm..." style="-fx-background-radius: 10;" />-->
+<!--      -->
+<!--                        <Button fx:id="btnSearchFr" layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSearchAction" prefHeight="32.0" prefWidth="46.0" style="-fx-background-radius: 10; -fx-background-color: #033859;" textFill="WHITE">-->
+<!--                           <font>-->
+<!--                              <Font name="System Bold" size="14.0" />-->
+<!--                           </font>-->
+<!--                           <graphic>-->
+<!--                              <AnchorPane prefHeight="22.0" prefWidth="23.0">-->
+<!--                                 <children>-->
+<!--                                    <ImageView fitHeight="25.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                       <image>-->
+<!--                                          <Image url="@../image/search1.png" />-->
+<!--                                       </image>-->
+<!--                                    </ImageView>-->
+<!--                                 </children>-->
+<!--                              </AnchorPane>-->
+<!--                           </graphic>-->
+<!--                        </Button>-->
+<!--                     </children>-->
+<!--                  </AnchorPane>-->
+<!--               </children>-->
+<!--            </AnchorPane>-->
+<!--            <AnchorPane prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #033859; -fx-background-radius: 15;">-->
+<!--               <children>-->
+<!--                  <Button fx:id="btnLogout" layoutX="2.0" layoutY="473.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="30.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/logout1.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  <Button fx:id="btnHome" layoutX="1.0" layoutY="148.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/home1.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  <Button fx:id="btnGroupChat" layoutX="1.0" layoutY="308.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/group.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  <Button fx:id="btnSearch" layoutX="-1.0" layoutY="200.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="30.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/search1.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  <Button fx:id="btnFiles" layoutX="-1.0" layoutY="362.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="33.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/file1.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--                  <Button fx:id="btnChat" layoutY="258.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="38.0" style="-fx-background-color: #033859;">-->
+<!--                     <graphic>-->
+<!--                        <AnchorPane prefHeight="22.0" prefWidth="18.0">-->
+<!--                           <children>-->
+<!--                              <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                 <image>-->
+<!--                                    <Image url="@../image/chat1.png" />-->
+<!--                                 </image>-->
+<!--                              </ImageView>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </graphic>-->
+<!--                  </Button>-->
+<!--               </children>-->
+<!--            </AnchorPane>-->
+
+<!--         </children>-->
+<!--      </AnchorPane>-->
+<!--   </content>-->
+<!--</ScrollPane>-->
